@@ -40,7 +40,9 @@ function App() {
     // Simulate fetching data from an API
     const fetchData = async () => {
       try {
-        const response = await fetch();
+        const response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/users`,
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

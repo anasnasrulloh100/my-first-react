@@ -2,9 +2,10 @@
 
 Aplikasi web modern untuk mencari dan melihat detail direktori pengguna global. Dibangun dengan fokus pada performa, responsivitas, dan pengalaman pengguna (UX) yang bersih.
 
-🔗 **Live Demo:** [https://link-deployment-anda.vercel.app](https://link-deployment-anda.vercel.app) *(Akan diupdate setelah deployment)*
+🔗 **Live Demo:** [https://my-first-react-beige.vercel.app/](https://my-first-react-beige.vercel.app/)
 
 ## ✨ Fitur Utama
+
 - 🔍 **Real-time Search**: Menyaring pengguna berdasarkan nama atau email secara instan tanpa reload halaman.
 - 📱 **Fully Responsive**: Tampilan grid yang beradaptasi sempurna di Mobile, Tablet, dan Desktop menggunakan Tailwind CSS.
 - ⚡ **Dynamic Routing**: Navigasi halaman detail pengguna yang mulus (SPA) dengan React Router.
@@ -12,6 +13,7 @@ Aplikasi web modern untuk mencari dan melihat detail direktori pengguna global. 
 - 🔒 **Environment Variables**: Konfigurasi API URL yang aman dan terpisah menggunakan `.env`.
 
 ## 🛠️ Tech Stack
+
 - **Frontend Framework**: React.js 18+
 - **Build Tool**: Vite
 - **Styling**: Tailwind CSS
@@ -19,6 +21,7 @@ Aplikasi web modern untuk mencari dan melihat detail direktori pengguna global. 
 - **Data Fetching**: Native Fetch API (Async/Await)
 
 ## 📂 Struktur Proyek
+
 ```text
 src/
 ├── components/       # Komponen UI yang dapat digunakan kembali (Reusable)
@@ -30,9 +33,10 @@ src/
 ```
 
 ## 🚀 Cara Menjalankan Secara Lokal
-Ikuti langkah-langkah ini untuk menjalankan proyek di mesin Anda:
-1. Clone repositori ini:
 
+Ikuti langkah-langkah ini untuk menjalankan proyek di mesin Anda:
+
+1. Clone repositori ini:
 
    git clone https://github.com/username-anda/nama-repo.git
    cd nama-repo
@@ -42,10 +46,10 @@ Ikuti langkah-langkah ini untuk menjalankan proyek di mesin Anda:
    `npm install`
 
 3. Konfigurasi Environment Variables:
-    Buat file .env di root folder dan tambahkan:
+   Buat file .env di root folder dan tambahkan:
 
-       VITE_API_URL=https://jsonplaceholder.typicode.com
-  
+   VITE_API_URL=https://jsonplaceholder.typicode.com
+
 4. Jalankan server development:
 
    `npm run dev`
@@ -54,5 +58,3 @@ Buka http://localhost:5173 di browser Anda.
 
 👨‍💻 Author
 Dibuat dengan ❤️ oleh Anas - Calon Remote Front-End Developer.
-
-
