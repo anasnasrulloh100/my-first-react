@@ -27,7 +27,9 @@ src/
 ├── main.jsx          # Entry point aplikasi
 └── index.css         # Konfigurasi global Tailwind CSS
 
-🚀 Cara Menjalankan Secara Lokal
+```
+
+## 🚀 Cara Menjalankan Secara Lokal
 Ikuti langkah-langkah ini untuk menjalankan proyek di mesin Anda:
 1. Clone repositori ini:
 
@@ -37,7 +39,7 @@ Ikuti langkah-langkah ini untuk menjalankan proyek di mesin Anda:
 
 2. Instal dependensi:
 
-   npm install
+   `npm install`
 
 3. Konfigurasi Environment Variables:
     Buat file .env di root folder dan tambahkan:
@@ -46,7 +48,7 @@ Ikuti langkah-langkah ini untuk menjalankan proyek di mesin Anda:
   
 4. Jalankan server development:
 
-   npm run dev
+   `npm run dev`
 
 Buka http://localhost:5173 di browser Anda.
 

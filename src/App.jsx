@@ -17,7 +17,7 @@ function JobCard({ id, name, address }) {
       className="border border-gray-200 p-5 rounded-xl m-3 bg-white shadow-sm hover:shadow-md transition-shadow align-middle"
     >
       <h2 className="font-bold text-lg">{name}</h2>
-      <p>City : {city}</p>
+      <p>City: {city}</p>
       {/*<button
         onClick={clickHandler}
         className={`px-4 py-2 rounded-md transition-colors ${
@@ -40,9 +40,7 @@ function App() {
     // Simulate fetching data from an API
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/users`,
-        );
+        const response = await fetch();
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
