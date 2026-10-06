@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import UserDetail from "./UserDetail";
+import Navbar from "./Navbar";
 import heroImg from "./assets/hero.png";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "./assets/vite.svg";
@@ -71,53 +72,56 @@ function App() {
   };
   return (
     <div className="min-h-screen bg-gray-100 p-4 md:p-10">
+      <Navbar />
       {/* Peta Rute (Routes) */}
-      <Routes>
-        {/* Halaman Utama (Home) */}
-        <Route
-          path="/"
-          element={
-            <div>
-              <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-                Direktori Pengguna
-              </h1>
-              <input
-                type="text"
-                placeholder="Cari nama atau kota..."
-                value={searchTerm}
-                onChange={handleSearch}
-                className="mb-6 p-3 border rounded-lg w-full max-w-md mx-auto block"
-              />
+      <main className="p-4 md:p-10 max-w-6xl mx-auto">
+        <Routes>
+          {/* Halaman Utama (Home) */}
+          <Route
+            path="/"
+            element={
+              <div>
+                <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+                  Direktori Pengguna
+                </h1>
+                <input
+                  type="text"
+                  placeholder="Cari nama atau kota..."
+                  value={searchTerm}
+                  onChange={handleSearch}
+                  className="mb-6 p-3 border rounded-lg w-full max-w-md mx-auto block"
+                />
 
-              {filteredData.length === 0 && searchTerm !== "" ? (
-                <p className="col-span-full text-center text-gray-500">
-                  Data tidak ditemukan
-                </p>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredData.map((user) => (
-                    // GANTI JobCard dengan Link yang membungkusnya, atau modifikasi JobCard (lihat Langkah 4)
-                    <Link
-                      to={`/user/${user.id}`}
-                      key={user.id}
-                      className="block"
-                    >
-                      <JobCard
-                        id={user.id}
-                        name={user.name}
-                        address={user.address}
-                      />
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          }
-        />
+                {filteredData.length === 0 && searchTerm !== "" ? (
+                  <p className="col-span-full text-center text-gray-500">
+                    Data tidak ditemukan
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredData.map((user) => (
+                      // GANTI JobCard dengan Link yang membungkusnya, atau modifikasi JobCard (lihat Langkah 4)
+                      <Link
+                        to={`/user/${user.id}`}
+                        key={user.id}
+                        className="block"
+                      >
+                        <JobCard
+                          id={user.id}
+                          name={user.name}
+                          address={user.address}
+                        />
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            }
+          />
 
-        {/* Halaman Detail */}
-        <Route path="/user/:id" element={<UserDetail />} />
-      </Routes>
+          {/* Halaman Detail */}
+          <Route path="/user/:id" element={<UserDetail />} />
+        </Routes>
+      </main>
     </div>
   );
 }
