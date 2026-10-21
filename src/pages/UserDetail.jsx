@@ -30,10 +30,12 @@ function UserDetail() {
   if (loading) {
     return <p className="text-center">Loading user data...</p>;
   }
-
+  if (!user) {
+    return <p className="py-4 text-center text-red-500">Data pengguna tidak ditemukan.</p>;
+  }
   return (
     <main className="min-h-screen bg-gray-100 p-10 flex flex-col items-center">
-      <article className="border border-gray-200 px-6 py-4 rounded-xl m-3 bg-white shadow-sm hover:shadow-md transition-shadow align-middle">
+      <article className="bg-white p-8 rounded-lg shadow-md w-full max-w-md mb-6">
         <h1 className="text-3xl font-bold mb-4">{user?.name}</h1>
         <p className="text-gray-600 mb-1">Email : {user.email}</p>
         <p className="text-gray-600 mb-1">City : {user.address?.city}</p>
