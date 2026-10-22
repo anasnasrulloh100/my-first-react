@@ -1,8 +1,8 @@
 
 import { Routes, Route} from "react-router-dom";
 import UserDetail from "./pages/UserDetail";
-import UserCard from "./pages/UserCard";
 import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
 
 
 
@@ -11,7 +11,7 @@ function App() {
     <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={<UserCard />} />
+        <Route path="/" element={<Home />} />
         <Route path="/user/:id" element={<UserDetail />} />
       </Routes>
     </div>
