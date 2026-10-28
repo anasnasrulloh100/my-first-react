@@ -1,9 +1,19 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import UserCard from "./UserCard";
 
-function HomePage() {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+function Home() {
+  const { data: users = [], isLoading } = useQuery({
+    queryKey: ["users"],
+    queryFn: () =>
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/users`).then((res) => {
+        if (!res.ok) {
+          throw new Error("Gagal mengambil data pengguna");
+        }
+        return res.json();
+      }),
+  });
 
   // State untuk Pencarian
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,26 +22,8 @@ function HomePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6; // Tampilkan 6 kartu per halaman
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/users`,
-        );
-        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-        const users = await response.json();
-        setData(users);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
   // 1. LOGIKA PENCARIAN (Dilakukan terlebih dahulu pada semua data)
-  const filteredData = data.filter((user) => {
+  const filteredData = users.filter((user) => {
     const term = searchTerm.toLowerCase().trim();
     const nameMatch = user.name?.toLowerCase().includes(term);
     // Gunakan optional chaining (?.) agar tidak crash jika address kosong
@@ -59,7 +51,18 @@ function HomePage() {
       </p>
     );
   }
-
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 }, // Mulai dari transparan dan 20px di bawah
+    visible: {
+      opacity: 1,
+      y: 0, // Bergerak ke posisi asli
+      transition: { type: "spring", stiffness: 100, damping: 15 }, // Efek membal (spring) yang halus
+    },
+  };
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
@@ -81,46 +84,58 @@ function HomePage() {
           Tidak ada pengguna yang ditemukan untuk "{searchTerm}".
         </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <motion.div
+          key={currentPage} // Tambahkan key untuk memaksa re-render saat halaman berubah
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"
+        >
           {currentItems.map((user) => (
-            <UserCard
-              key={user.id}
-              id={user.id}
-              name={user.name}
-              city={user.address?.city}
-            />
+            <motion.div key={user.id} variants={itemVariants}>
+              <UserCard
+                key={user.id}
+                id={user.id}
+                name={user.name}
+                city={user.address?.city}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
 
       {/* KONTROL PAGINATION */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-4 mt-8 pt-6 border-t border-gray-200">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.04 }} // Membesar 5% saat di-hover
+            whileTap={{ scale: 0.95 }} // Mengecil 5% saat diklik (efek tekan)
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className={`px-4 py-2 ${currentPage === 1 ? 'bg-gray-400 hover:bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'} text-white border border-gray-300 rounded-lg text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
           >
             ← Sebelumnya
-          </button>
+          </motion.button>
 
           <span className="font-semibold text-gray-700">
             Halaman {currentPage} dari {totalPages}
           </span>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.04 }} // Membesar 5% saat di-hover
+            whileTap={{ scale: 0.95 }} // Mengecil 5% saat diklik (efek tekan)
             onClick={() =>
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+            className={`px-4 py-2 ${currentPage === totalPages ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm`}
           >
             Selanjutnya →
-          </button>
+          </motion.button>
         </div>
       )}
     </div>
   );
 }
 
-export default HomePage;
+export default Home;
