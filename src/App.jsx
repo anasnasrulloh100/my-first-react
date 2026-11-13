@@ -8,10 +8,9 @@ function App() {
   const location = useLocation();
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-    <Navbar />
+      <Navbar />
       <main className="flex-grow">
         <AnimatePresence mode="wait">
-         
           <Routes location={location} key={location.pathname}>
             <Route
               path="/"

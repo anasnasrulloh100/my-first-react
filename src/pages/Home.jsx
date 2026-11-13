@@ -4,7 +4,12 @@ import { motion } from "framer-motion";
 import UserCard from "./UserCard";
 
 function Home() {
-  const { data: users = [], isLoading } = useQuery({
+  const {
+    data: users = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["users"],
     queryFn: () =>
       fetch(`${import.meta.env.VITE_API_BASE_URL}/users`).then((res) => {
@@ -47,10 +52,19 @@ function Home() {
   if (isLoading) {
     return (
       <p className="text-center text-gray-500 py-10 text-xl animate-pulse">
-        Memuat data direktori...
+        Memuat data...
       </p>
     );
   }
+
+  if (isError) {
+    return (
+      <p className="text-center text-red-500 py-10 text-xl">
+        {`Terjadi kesalahan: ${error.message}`}
+      </p>
+    );
+  }
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
@@ -108,11 +122,11 @@ function Home() {
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-4 mt-8 pt-6 border-t border-gray-200">
           <motion.button
-            whileHover={{ scale: 1.04 }} // Membesar 5% saat di-hover
-            whileTap={{ scale: 0.95 }} // Mengecil 5% saat diklik (efek tekan)
+            whileHover={currentPage === 1 ? { scale: 1 } : { scale: 1.04 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`px-4 py-2 ${currentPage === 1 ? 'bg-gray-400 hover:bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'} text-white border border-gray-300 rounded-lg text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
+            className={`px-4 py-2 ${currentPage === 1 ? "bg-gray-400" : "bg-blue-600"} text-white border border-gray-300 rounded-lg text-gray-700 transition-hover-color disabled:cursor-not-allowed`}
           >
             ← Sebelumnya
           </motion.button>
@@ -122,13 +136,13 @@ function Home() {
           </span>
 
           <motion.button
-            whileHover={{ scale: 1.04 }} // Membesar 5% saat di-hover
-            whileTap={{ scale: 0.95 }} // Mengecil 5% saat diklik (efek tekan)
+            whileHover={currentPage === totalPages ? { scale: 1.0 } : { scale: 1.04 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() =>
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 ${currentPage === totalPages ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm`}
+            className={`px-4 py-2 ${currentPage === totalPages ? "bg-gray-400" : "bg-blue-600"} text-white rounded-lg transition-hover-color disabled:cursor-not-allowed`}
           >
             Selanjutnya →
           </motion.button>
